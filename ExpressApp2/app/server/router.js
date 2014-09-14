@@ -38,10 +38,10 @@ module.exports = function (app) {
 					res.cookie('user', o.user, { maxAge: 900000 });
 					res.cookie('pass', o.pass, { maxAge: 900000 });
 				}
-				//res.send(o, 200);
 				console.log('user login and redirecting to home');
+				res.send(o, 200);
 				//res.redirect('/index');
-				res.redirect('/user/' + o.user);
+				//res.redirect('/user/' + o.user);
 			}
 		});
 	});

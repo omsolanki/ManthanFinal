@@ -20,6 +20,7 @@ $(document).ready(function(){
                 console.log(status);
 			if (status == 'success') 
                {
+                   //return true;
                    window.location.href = '/user/' + responseText.user;
 }
 		},
