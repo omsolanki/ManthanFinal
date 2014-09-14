@@ -66,10 +66,8 @@
     <Content Include="app\server\views\userdetails.jade" />
     <Content Include="app\server\views\account.jade" />
     <Content Include="app\server\views\home.jade" />
-    <Content Include="app\server\views\Index-old.jade" />
     <Content Include="app\server\views\index.jade" />
     <Content Include="app\server\views\layout.jade" />
-    <Content Include="app\server\views\layout2.jade" />
     <Content Include="app\server\views\login.jade" />
     <Content Include="app\server\views\modals\alert.jade" />
     <Content Include="app\server\views\modals\confirm.jade" />

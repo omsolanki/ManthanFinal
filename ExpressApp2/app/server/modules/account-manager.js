@@ -139,6 +139,12 @@ exports.getAllPosts = function (callback) {
 	});
 };
 
+exports.addNewPost = function (data, callback) {
+	
+	posts.insert(data, callback);
+					
+}
+
 exports.delAllRecords = function (callback) {
 	accounts.remove({}, callback); // reset accounts collection for testing //
 }

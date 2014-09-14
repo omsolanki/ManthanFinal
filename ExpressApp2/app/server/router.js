@@ -71,7 +71,7 @@ module.exports = function (app) {
 			AM.getAllRecords(function (e, accounts) {
 				//res.render('print', { title : 'Account List', accts : accounts });
 				//res.send({ title : 'Account List', accts : accounts }, 200);
-				console.log(uPosts);
+				//console.log(uPosts);
 				res.render('index', {
 					title : 'welcome to IB wall',
 					udata : req.session.user,
@@ -213,6 +213,24 @@ module.exports = function (app) {
 			res.render('print', { title : 'Account List', accts : accounts });
 		})
 	});
+	
+	app.post('/userPost', function (req, res) {
+		console.log('user posted something');
+		
+		AM.addNewPost({
+			postedTo 	: req.param('postedTo'),
+			postedBy 	: req.param('postedBy'),
+			postData 	: req.param('postData')			
+		}, function (e) {
+			if (e) {
+				res.send(e, 400);
+			} else {
+				res.send('ok', 200);
+			}
+		});
+	});
+
+	//userPost
 	
 	app.post('/delete', function (req, res) {
 		AM.deleteAccount(req.body.id, function (e, obj) {

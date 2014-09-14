@@ -1,56 +1,64 @@
 
-function IndexController()
-{
-
-// bind event listeners to button clicks //
+function IndexController() {
+	
+	// bind event listeners to button clicks //
 	var that = this;
-
-// handle user logout //
-	$('#link-logout').click(function (){ 
-		that.attemptLogout();		
-	});	
-
-	$('#postModal-button').click(function (){		
-		
-		that.loadAccounts();
+	
+	// handle user logout //
+	$('#link-logout').click(function () {
+		that.attemptLogout();
 	});
-
-// confirm account deletion //
-	$('#account-form-btn1').click(function(){$('.modal-confirm').modal('show')});
-
-// handle account deletion //
-	$('.modal-confirm .submit').click(function(){ that.deleteAccount(); });
-
-	this.deleteAccount = function()
-	{
+	
+	$('#button-post').click(function () {
+		var postData = $('#textbox-post').val();		
+		
+		$.ajax({
+			url: '/userPost',
+			type: 'POST',
+			data: { postedTo: $('#userId').val() , postedBy: $('#userId').val(), postData: postData },
+			success: function (data) {
+				//that.showLockedAlert('Your account has been deleted.<br>Redirecting you back to the homepage.');
+			},
+			error: function (jqXHR) {
+				console.log(jqXHR.responseText + ' :: ' + jqXHR.statusText);
+			}
+		});
+	});
+	
+	// confirm account deletion //
+	$('#account-form-btn1').click(function () { $('.modal-confirm').modal('show') });
+	
+	// handle account deletion //
+	$('.modal-confirm .submit').click(function () { that.deleteAccount(); });
+	
+	this.deleteAccount = function () {
 		$('.modal-confirm').modal('hide');
 		var that = this;
 		$.ajax({
 			url: '/delete',
 			type: 'POST',
-			data: { id: $('#userId').val()},
-			success: function(data){
-	 			that.showLockedAlert('Your account has been deleted.<br>Redirecting you back to the homepage.');
+			data: { id: $('#userId').val() },
+			success: function (data) {
+				that.showLockedAlert('Your account has been deleted.<br>Redirecting you back to the homepage.');
 			},
-			error: function(jqXHR){
-				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
+			error: function (jqXHR) {
+				console.log(jqXHR.responseText + ' :: ' + jqXHR.statusText);
 			}
 		});
 	}
-
-	this.attemptLogout = function()
-	{
+	
+	this.attemptLogout = function () {
 		var that = this;
 		$.ajax({
 			url: "/home",
 			type: "POST",
-			data: {logout : true},
-			success: function(data){
-	 			//that.showLockedAlert('You are now logged out.<br>Redirecting you back to the homepage.');
+			data: { logout : true },
+			success: function (data) {
+				//that.showLockedAlert('You are now logged out.<br>Redirecting you back to the homepage.');
 				window.location.href = '/';
 			},
-			error: function(jqXHR){
-				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
+			error: function (jqXHR) {
+				console.log(jqXHR.responseText + ' :: ' + jqXHR.statusText);
 			}
 		});
 	}
@@ -81,19 +89,18 @@ function IndexController()
 		$('.modal-alert button').click(function () { window.location.href = '/'; })
 		setTimeout(function () { window.location.href = '/'; }, 3000);
 	}
-
-	this.showLockedAlert = function(msg){
+	
+	this.showLockedAlert = function (msg) {
 		$('.modal-alert').modal({ show : false, keyboard : false, backdrop : 'static' });
 		$('.modal-alert .modal-header h3').text('Success!');
 		$('.modal-alert .modal-body p').html(msg);
 		$('.modal-alert').modal('show');
-		$('.modal-alert button').click(function(){window.location.href = '/';})
-		setTimeout(function(){window.location.href = '/';}, 3000);
+		$('.modal-alert button').click(function () { window.location.href = '/'; })
+		setTimeout(function () { window.location.href = '/'; }, 3000);
 	}
 }
 
-IndexController.prototype.onUpdateSuccess = function()
-{
+IndexController.prototype.onUpdateSuccess = function () {
 	$('.modal-alert').modal({ show : false, keyboard : true, backdrop : true });
 	$('.modal-alert .modal-header h3').text('Success!');
 	$('.modal-alert .modal-body p').html('Your account has been updated.');
