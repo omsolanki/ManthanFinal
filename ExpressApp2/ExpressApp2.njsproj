@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>ExpressApp7</Name>
+    <RootNamespace>ExpressApp7</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>83aac9f6-1094-40fc-8ce9-2ca0fe8ccbac</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>app.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <NodejsPort>1337</NodejsPort>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="app.js" />
+    <Compile Include="app\public\js\controllers\indexController.js" />
+    <Compile Include="app\public\js\controllers\homeController.js" />
+    <Compile Include="app\public\js\controllers\loginController.js" />
+    <Compile Include="app\public\js\controllers\signupController.js" />
+    <Compile Include="app\public\js\form-validators\accountValidator.js" />
+    <Compile Include="app\public\js\form-validators\emailValidator.js" />
+    <Compile Include="app\public\js\form-validators\loginValidator.js" />
+    <Compile Include="app\public\js\form-validators\resetValidator.js" />
+    <Compile Include="app\public\js\views\index.js" />
+    <Compile Include="app\public\js\views\home.js" />
+    <Compile Include="app\public\js\views\login.js" />
+    <Compile Include="app\public\js\views\reset.js" />
+    <Compile Include="app\public\js\views\signup.js" />
+    <Compile Include="app\public\vendor\javascripts\bootstrap.min.js" />
+    <Compile Include="app\public\vendor\javascripts\jquery.form.js" />
+    <Compile Include="app\public\vendor\javascripts\jquery.min.js" />
+    <Compile Include="app\public\vendor\javascripts\scripts.js" />
+    <Compile Include="app\public\vendor\stylesheets\bootstrap-modal.js" />
+    <Compile Include="app\public\vendor\stylesheets\bootstrap-transition.js" />
+    <Compile Include="app\server\modules\account-manager.js" />
+    <Compile Include="app\server\modules\country-list.js" />
+    <Compile Include="app\server\modules\email-dispatcher.js" />
+    <Compile Include="app\server\modules\email-settings.js" />
+    <Compile Include="app\server\modules\post-manager.js" />
+    <Compile Include="app\server\router.js" />
+    <Content Include="app\public\img\glyphicons-halflings-white.png" />
+    <Content Include="app\public\img\glyphicons-halflings.png" />
+    <Content Include="app\public\vendor\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\public\vendor\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\public\vendor\stylesheets\bootstrap.min.css" />
+    <Content Include="app\public\vendor\stylesheets\style.styl" />
+    <Content Include="app\public\vendor\stylesheets\styles.css" />
+    <Content Include="app\server\views\404.jade" />
+    <Content Include="app\server\views\account.jade" />
+    <Content Include="app\server\views\home.jade" />
+    <Content Include="app\server\views\Index-old.jade" />
+    <Content Include="app\server\views\index.jade" />
+    <Content Include="app\server\views\layout.jade" />
+    <Content Include="app\server\views\layout2.jade" />
+    <Content Include="app\server\views\login.jade" />
+    <Content Include="app\server\views\modals\alert.jade" />
+    <Content Include="app\server\views\modals\confirm.jade" />
+    <Content Include="app\server\views\modals\form-errors.jade" />
+    <Content Include="app\server\views\modals\lost-password.jade" />
+    <Content Include="app\server\views\modals\reset-password.jade" />
+    <Content Include="app\server\views\navigation.jade" />
+    <Content Include="app\server\views\print.jade" />
+    <Content Include="app\server\views\reset.jade" />
+    <Content Include="app\server\views\signup.jade" />
+    <Content Include="app\server\views\userPost.jade" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\" />
+    <Folder Include="app\public\" />
+    <Folder Include="app\public\img\" />
+    <Folder Include="app\public\js\" />
+    <Folder Include="app\public\js\controllers\" />
+    <Folder Include="app\public\js\form-validators\" />
+    <Folder Include="app\public\js\views\" />
+    <Folder Include="app\public\vendor\" />
+    <Folder Include="app\public\vendor\fonts\" />
+    <Folder Include="app\public\vendor\javascripts\" />
+    <Folder Include="app\public\vendor\stylesheets\" />
+    <Folder Include="app\server\" />
+    <Folder Include="app\server\modules\" />
+    <Folder Include="app\server\views\" />
+    <Folder Include="app\server\views\modals\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
