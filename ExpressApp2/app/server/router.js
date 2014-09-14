@@ -51,13 +51,32 @@ module.exports = function (app) {
 			// if user is not logged-in redirect back to login page //
 			res.redirect('/');
 		} else {
+			
+			var uPosts = null;
+			
+			AM.getAllPosts(function (e, userPosts) {
+				
+				uPosts = userPosts;
+				//res.render('print', { title : 'Account List', accts : accounts });
+				//res.send({ title : 'Account List', accts : accounts }, 200);
+				//res.render('index', {
+				//	title : 'welcome to IB wall',
+				//	udata : req.session.user,
+				//	accounts: accounts,
+				//	userPosts: posts
+				//});
+			});
+			
+			
 			AM.getAllRecords(function (e, accounts) {
 				//res.render('print', { title : 'Account List', accts : accounts });
 				//res.send({ title : 'Account List', accts : accounts }, 200);
+				console.log(uPosts);
 				res.render('index', {
 					title : 'welcome to IB wall',
 					udata : req.session.user,
-					accounts: accounts
+					accounts: accounts,
+					userPosts: uPosts
 				});
 			});
 		}
@@ -74,7 +93,7 @@ module.exports = function (app) {
 			res.render('home', {
 				title : 'Control Panel',
 				countries : CT,
-				udata : req.session.user				
+				udata : req.session.user
 			});
 		}
 	});
