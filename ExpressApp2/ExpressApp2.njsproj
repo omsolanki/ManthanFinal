@@ -63,6 +63,7 @@
     <Content Include="app\public\vendor\stylesheets\style.styl" />
     <Content Include="app\public\vendor\stylesheets\styles.css" />
     <Content Include="app\server\views\404.jade" />
+    <Content Include="app\server\views\userdetails.jade" />
     <Content Include="app\server\views\account.jade" />
     <Content Include="app\server\views\home.jade" />
     <Content Include="app\server\views\Index-old.jade" />

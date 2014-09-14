@@ -6,7 +6,14 @@ function IndexController()
 	var that = this;
 
 // handle user logout //
-	$('#link-logout').click(function(){ that.attemptLogout(); });
+	$('#link-logout').click(function (){ 
+		that.attemptLogout();		
+	});	
+
+	$('#postModal-button').click(function (){		
+		
+		that.loadAccounts();
+	});
 
 // confirm account deletion //
 	$('#account-form-btn1').click(function(){$('.modal-confirm').modal('show')});
@@ -46,6 +53,33 @@ function IndexController()
 				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);
 			}
 		});
+	}
+	
+	this.loadAccounts = function () {
+		var that = this;
+		$.ajax({
+			url: "/Acounts",
+			dataType: "json",
+			type: "GET",			
+			success: function (data) {
+				//that.showLockedAlert('You are now logged out.<br>Redirecting you back to the homepage.');
+				//window.location.href = '/';
+				console.log(data);
+				alert(data);
+			},
+			error: function (jqXHR) {
+				console.log(jqXHR.responseText + ' :: ' + jqXHR.statusText);
+			}
+		});
+	}
+	
+	this.showAccounts = function (msg) {
+		$('.modal-alert').modal({ show : false, keyboard : false, backdrop : 'static' });
+		$('.modal-alert .modal-header h3').text('Success!');
+		$('.modal-alert .modal-body p').html(msg);
+		$('.modal-alert').modal('show');
+		$('.modal-alert button').click(function () { window.location.href = '/'; })
+		setTimeout(function () { window.location.href = '/'; }, 3000);
 	}
 
 	this.showLockedAlert = function(msg){
