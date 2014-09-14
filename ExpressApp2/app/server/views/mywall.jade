@@ -15,7 +15,7 @@ block content
             ul#lg-menu.nav.hidden-xs
                 each item in accounts
                   li.active
-                    a(href='/user/#{item.user}')
+                    a(href='#featured')
                       img.pull-left(src='//placehold.it/150x150', width='25px', height='25px')
                       | #{item.name}
             ul#sidebar-footer.list-unstyled.hidden-xs
@@ -59,7 +59,7 @@ block content
                         i.glyphicon.glyphicon-search
                 ul.nav.navbar-nav
                   li
-                    a(href='/user/#{user.user}')
+                    a(href='#')
                       i.glyphicon.glyphicon-home
                       | Home
                   li
@@ -266,7 +266,8 @@ block content
     
 
     // script references
-block scripts
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js')
+    script(src='/vendor/javascripts/bootstrap.min.js')
     script(src='/vendor/javascripts/scripts.js')
     script(src='/js/views/index.js')
     script(src='/js/controllers/indexController.js')

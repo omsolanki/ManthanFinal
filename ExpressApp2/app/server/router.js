@@ -17,7 +17,8 @@ module.exports = function (app) {
 			AM.autoLogin(req.cookies.user, req.cookies.pass, function (o) {
 				if (o != null) {
 					req.session.user = o;
-					res.redirect('/home');
+					//res.redirect('/home');
+					res.redirect('/user/' + req.cookies.user);
 				} else {
 					res.render('login', { title: 'Hello - Please Login To Your Account' });
 				}
@@ -39,18 +40,36 @@ module.exports = function (app) {
 				}
 				//res.send(o, 200);
 				console.log('user login and redirecting to home');
-				res.redirect('/index');
+				//res.redirect('/index');
+				res.redirect('/user/' + o.user);
 			}
 		});
 	});
 	
-	
-	// index page
-	app.get('/index', function (req, res) {
-		if (req.session.user == null) {
+    //user wall page
+    app.get('/user/:username', function(req, res) {
+        //var acc = [];
+        //var onWallOfUserName = req.param("username");
+        //AM.getMyPageRecords( onWallOfUserName, function(e, accounts){
+        //    acc = accounts;
+        //    res.render('wall', { title : 'Account List', accts : acc.us, my : acc.mi });
+		//});
+
+        if (req.session.user == null) {
 			// if user is not logged-in redirect back to login page //
 			res.redirect('/');
 		} else {
+            //    PM.getAllPosts(function (e, allPosts) {
+			//	//res.render('print', { title : 'Account List', accts : accounts });
+			//	//res.send({ title : 'Account List', accts : accounts }, 200);
+			//	res.render('index', {
+			//		title : 'welcome to IB wall',
+			//		udata : req.session.user,
+			//		accounts: accounts,
+            //        posts: allPosts
+			//	});
+			//});
+
 			AM.getAllRecords(function (e, accounts) {
 				//res.render('print', { title : 'Account List', accts : accounts });
 				//res.send({ title : 'Account List', accts : accounts }, 200);
@@ -60,6 +79,69 @@ module.exports = function (app) {
 					accounts: accounts
 				});
 			});
+		}
+		//AM.delAllRecords(function(){
+		//	res.redirect('/print');	
+		//});
+	});
+
+	
+	// index page
+	app.get('/index', function (req, res) {
+		if (req.session.user == null) {
+			// if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		} else {
+            //    PM.getAllPosts(function (e, allPosts) {
+			//	//res.render('print', { title : 'Account List', accts : accounts });
+			//	//res.send({ title : 'Account List', accts : accounts }, 200);
+			//	res.render('index', {
+			//		title : 'welcome to IB wall',
+			//		udata : req.session.user,
+			//		accounts: accounts,
+            //        posts: allPosts
+			//	});
+			//});
+
+			AM.getAllRecords(function (e, accounts) {
+				//res.render('print', { title : 'Account List', accts : accounts });
+				//res.send({ title : 'Account List', accts : accounts }, 200);
+				res.render('index', {
+					title : 'welcome to IB wall',
+					udata : req.session.user,
+					accounts: accounts
+				});
+			});
+		}
+	});
+
+
+    //tushar
+    app.get('/mywall', function (req, res) {
+		if (req.session.user == null) {
+			// if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		} else {
+                PM.getMyPageRecords(function (e, compositeModel) {
+				//res.render('print', { title : 'Account List', accts : accounts });
+				//res.send({ title : 'Account List', accts : accounts }, 200);
+				res.render('mywall', {
+					title : 'welcome to IB wall',
+					udata : req.session.user,
+					accounts: compositeModel.allUsers,
+                    posts: compositeModel.allposts
+				});
+			});
+
+			//AM.getAllRecords(function (e, accounts) {
+			//	//res.render('print', { title : 'Account List', accts : accounts });
+			//	//res.send({ title : 'Account List', accts : accounts }, 200);
+			//	res.render('index', {
+			//		title : 'welcome to IB wall',
+			//		udata : req.session.user,
+			//		accounts: accounts
+			//	});
+			//});
 		}
 	});
 	
@@ -117,6 +199,7 @@ module.exports = function (app) {
 		AM.addNewAccount({
 			name 	: req.param('name'),
 			email 	: req.param('email'),
+			email 	: req.param('phone'),
 			user 	: req.param('user'),
 			pass	: req.param('pass'),
 			country : req.param('country')

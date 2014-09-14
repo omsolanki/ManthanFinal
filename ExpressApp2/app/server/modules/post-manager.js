@@ -18,7 +18,8 @@ var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}),
 		console.log('connected to database :: ' + dbName);
 	}
 });
-var accounts = db.collection('posts');
+var accounts = db.collection('Posts');
+var users = db.collection('accounts');
 
 /* login validation methods */
 
@@ -201,3 +202,38 @@ var findByMultipleFields = function(a, callback)
 		else callback(null, results)
 	});
 }
+
+
+
+exports.getMyPageRecords = function(callback) {
+    var MyInfo;
+    var AlUs;
+    var mLe;
+
+    var allUsers = users.find().toArray(
+        function(e, res) {
+            if (e) {
+                callback(e)
+            } else {
+                accounts.find().toArray(
+		function (e, o) {
+		    if (e) 
+                    {
+                        callback(e)
+                        }
+		    else {
+                     //res of 2nd
+                        console.log(o);
+                        AllPosts = o;
+                        console.log(res);
+                        AlUs = res;
+                        var mLe = {
+                            allUsers: AlUs,
+                            allposts: AllPosts
+                        };
+                        callback(null, mLe);
+                    }
+		});
+            }
+        });
+};

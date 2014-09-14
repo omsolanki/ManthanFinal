@@ -11,13 +11,17 @@ input(type='hidden', value= user._id)#userId
 		hr
 		fieldset
 			#name-cg.control-group
-				label.control-label(for='name-tf') Name
+				label.control-label(for='name-tf') Name*
 				.controls
 					input#name-tf.input-xlarge(type='text', name='name', value= user.name)
 			#email-cg.control-group
-				label.control-label(for='email-tf') Email
+				label.control-label(for='email-tf') Email*
 				.controls
 					input#email-tf.input-xlarge(type='text', name='email', value= user.email)
+			#phone-cg.control-group
+				label.control-label(for='phone-tf') Phone*
+				.controls
+					input#phone-tf.input-xlarge(type='text', name='phone', value= user.phone)
 			#clist-cg.control-group
 				label.control-label(for='country-list') Location
 				.controls
@@ -27,11 +31,11 @@ input(type='hidden', value= user._id)#userId
 			hr
 			p#sub2.subheading
 			#user-cg.control-group
-				label.control-label(for='user-tf') Username
+				label.control-label(for='user-tf') Username*
 				.controls
 					input#user-tf.input-xlarge.disabled(type='text', name='user', value= user.user)
 			#pass-cg.control-group
-				label.control-label(for='pass-tf') Password
+				label.control-label(for='pass-tf') Password*
 				.controls
 					input#pass-tf.input-xlarge(type='password', name='pass', value='')
 			.form-actions

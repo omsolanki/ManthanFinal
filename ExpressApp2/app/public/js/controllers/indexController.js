@@ -15,6 +15,11 @@ function IndexController()
 		that.loadAccounts();
 	});
 
+    //Like click
+    $('#postModal-button').click(function (){		
+		that.loadAccounts();
+	});
+
 // confirm account deletion //
 	$('#account-form-btn1').click(function(){$('.modal-confirm').modal('show')});
 

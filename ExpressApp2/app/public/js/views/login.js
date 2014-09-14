@@ -17,7 +17,11 @@ $(document).ready(function(){
 			}
 		},
 		success	: function(responseText, status, xhr, $form){
-			if (status == 'success') return true;//window.location.href = '/home';
+                console.log(status);
+			if (status == 'success') 
+               {
+                   window.location.href = '/user/' + responseText.user;
+}
 		},
 		error : function(e){
             lv.showLoginError('Login Failure', 'Please check your username and/or password');

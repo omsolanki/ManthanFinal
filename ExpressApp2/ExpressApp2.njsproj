@@ -47,8 +47,8 @@
     <Compile Include="app\public\vendor\javascripts\jquery.form.js" />
     <Compile Include="app\public\vendor\javascripts\jquery.min.js" />
     <Compile Include="app\public\vendor\javascripts\scripts.js" />
-    <Compile Include="app\public\vendor\stylesheets\bootstrap-modal.js" />
-    <Compile Include="app\public\vendor\stylesheets\bootstrap-transition.js" />
+    <Compile Include="app\public\vendor\javascripts\bootstrap-modal.js" />
+    <Compile Include="app\public\vendor\javascripts\bootstrap-transition.js" />
     <Compile Include="app\server\modules\account-manager.js" />
     <Compile Include="app\server\modules\country-list.js" />
     <Compile Include="app\server\modules\email-dispatcher.js" />
@@ -60,9 +60,15 @@
     <Content Include="app\public\vendor\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="app\public\vendor\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="app\public\vendor\stylesheets\bootstrap.min.css" />
+    <Content Include="app\public\vendor\stylesheets\bootstrap_wall.min.css" />
+    <Content Include="app\public\vendor\stylesheets\style.css" />
     <Content Include="app\public\vendor\stylesheets\style.styl" />
     <Content Include="app\public\vendor\stylesheets\styles.css" />
+    <Content Include="app\public\vendor\stylesheets\style_outer.css" />
+    <Content Include="app\public\vendor\stylesheets\style_outer.styl" />
     <Content Include="app\server\views\404.jade" />
+    <Content Include="app\server\views\walllayout.jade" />
+    <Content Include="app\server\views\mywall.jade" />
     <Content Include="app\server\views\userdetails.jade" />
     <Content Include="app\server\views\account.jade" />
     <Content Include="app\server\views\home.jade" />
