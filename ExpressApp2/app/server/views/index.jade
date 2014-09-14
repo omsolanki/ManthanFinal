@@ -126,7 +126,7 @@ block content
                             a(href='')
                               i.glyphicon.glyphicon-map-marker
 
-                    
+                    if (userPosts != null)
                     each userPost in userPosts
                                 .panel.panel-default
                                   .panel-heading
@@ -136,7 +136,7 @@ block content
                                     .clearfix
                                     p #{userPost.postData}
                                     hr
-                                    form
+                                    div
                                       .input-group
                                         .input-group-btn
                                           button.btn.btn-default.t-button-postlike(postid=userPost._id)
