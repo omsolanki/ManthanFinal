@@ -25,6 +25,14 @@ function IndexController() {
 		});
 	});
 	
+	// Post like
+	
+	$('.t-button-postlike').click(function () { 
+
+		var postId = $(this).attr('postid');
+
+	});
+	
 	// confirm account deletion //
 	$('#account-form-btn1').click(function () { $('.modal-confirm').modal('show') });
 	

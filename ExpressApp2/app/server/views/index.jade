@@ -13,11 +13,11 @@ block content
                 a.visible-xs.text-center(href='#', data-toggle='offcanvas')
                   i.glyphicon.glyphicon-chevron-right
             ul#lg-menu.nav.hidden-xs
-                each item in accounts
+                each account in accounts
                   li.active
                     a(href='#featured')
                       img.pull-left(src='//placehold.it/150x150', width='25px', height='25px')
-                      | #{item.name}
+                      | #{account.name}
             ul#sidebar-footer.list-unstyled.hidden-xs
               li
                 a(href='http://www.bootply.com')
@@ -126,26 +126,20 @@ block content
                             a(href='')
                               i.glyphicon.glyphicon-map-marker
 
-
-                    each item in userPosts
-
+                    
+                    each userPost in userPosts
                                 .panel.panel-default
                                   .panel-heading
                                     img.pull-left(src='//placehold.it/150x150', width='35px', height='35px')
-                                    h4 Post1
+                                    h4 Posted by #{userPost.postedBy}
                                   .panel-body
                                     .clearfix
-                                    p
-                                      | If you're looking for help with Bootstrap code, the
-                                      code twitter-bootstrap
-                                      | tag at
-                                      a(href='http://stackoverflow.com/questions/tagged/twitter-bootstrap') Stackoverflow
-                                      | is a good place to find answers.
+                                    p #{userPost.postData}
                                     hr
                                     form
                                       .input-group
                                         .input-group-btn
-                                          button.btn.btn-default
+                                          button.btn.btn-default.t-button-postlike(postid=userPost._id)
                                             i.glyphicon.glyphicon-thumbs-up
                                           button.btn.btn-default.disabled
                                             i.glyphicon 12

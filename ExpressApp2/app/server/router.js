@@ -55,16 +55,8 @@ module.exports = function (app) {
 			var uPosts = null;
 			
 			AM.getAllPosts(function (e, userPosts) {
-				
 				uPosts = userPosts;
-				//res.render('print', { title : 'Account List', accts : accounts });
-				//res.send({ title : 'Account List', accts : accounts }, 200);
-				//res.render('index', {
-				//	title : 'welcome to IB wall',
-				//	udata : req.session.user,
-				//	accounts: accounts,
-				//	userPosts: posts
-				//});
+																			
 			});
 			
 			
