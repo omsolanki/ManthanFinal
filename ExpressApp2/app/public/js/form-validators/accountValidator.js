@@ -3,8 +3,8 @@ function AccountValidator(){
 
 // build array maps of the form inputs & control groups //
 
-	this.formFields = [$('#name-tf'), $('#email-tf'), $('#user-tf'), $('#pass-tf')];
-	this.controlGroups = [$('#name-cg'), $('#email-cg'), $('#user-cg'), $('#pass-cg')];
+	this.formFields = [$('#name-tf'), $('#email-tf'),$('#phone-tf'), $('#user-tf'), $('#pass-tf')];
+	this.controlGroups = [$('#name-cg'), $('#email-cg'),$('#phone-cg'), $('#user-cg'), $('#pass-cg')];
 	
 // bind the form-error modal window to this controller to display any errors //
 	
@@ -29,6 +29,12 @@ function AccountValidator(){
 	this.validateEmail = function(e)
 	{
 		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(e);
+	}
+
+    this.validatePhone = function(e)
+	{
+		var re = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
 		return re.test(e);
 	}
 	
@@ -64,6 +70,10 @@ AccountValidator.prototype.validateForm = function()
 	}
 	if (this.validateEmail(this.formFields[1].val()) == false) {
 		this.controlGroups[1].addClass('error'); e.push('Please Enter A Valid Email');
+	}
+    if (this.validatePhone(this.formFields[2].val()) == false) {
+		this.controlGroups[2].addClass('error'); 
+        e.push('Please Enter A Valid 10 digit phone number');
 	}
 	if (this.validateName(this.formFields[2].val()) == false) {
 		this.controlGroups[2].addClass('error');

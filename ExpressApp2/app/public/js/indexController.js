@@ -10,7 +10,7 @@ function IndexController() {
 	});
 	
 	$('#button-post').click(function () {
-		var postData = $('#textbox-post').val();
+		var postData = $('#textbox-post').val();		
 		
 		$.ajax({
 			url: '/userPost',
@@ -29,7 +29,7 @@ function IndexController() {
 	
 	$('.t-button-postlike').click(function () {
 		var postId = $(this).attr('postid');
-		var loggedInUser = $('#userId').val();
+		var loggedInUser = $('#userId').val();	
 		
 	});
 	

@@ -17,7 +17,8 @@ module.exports = function (app) {
 			AM.autoLogin(req.cookies.user, req.cookies.pass, function (o) {
 				if (o != null) {
 					req.session.user = o;
-					res.redirect('/home');
+					//res.redirect('/home');
+					res.redirect('/user/' + req.cookies.user);
 				} else {
 					res.render('login', { title: 'Hello - Please Login To Your Account' });
 				}
@@ -37,13 +38,53 @@ module.exports = function (app) {
 					res.cookie('user', o.user, { maxAge: 900000 });
 					res.cookie('pass', o.pass, { maxAge: 900000 });
 				}
-				//res.send(o, 200);
 				console.log('user login and redirecting to home');
-				res.redirect('/index');
+				res.send(o, 200);
+				//res.redirect('/index');
+				//res.redirect('/user/' + o.user);
 			}
 		});
 	});
 	
+    //user wall page
+    app.get('/user/:username', function(req, res) {
+        //var acc = [];
+        //var onWallOfUserName = req.param("username");
+        //AM.getMyPageRecords( onWallOfUserName, function(e, accounts){
+        //    acc = accounts;
+        //    res.render('wall', { title : 'Account List', accts : acc.us, my : acc.mi });
+		//});
+
+        if (req.session.user == null) {
+			// if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		} else {
+            //    PM.getAllPosts(function (e, allPosts) {
+			//	//res.render('print', { title : 'Account List', accts : accounts });
+			//	//res.send({ title : 'Account List', accts : accounts }, 200);
+			//	res.render('index', {
+			//		title : 'welcome to IB wall',
+			//		udata : req.session.user,
+			//		accounts: accounts,
+            //        posts: allPosts
+			//	});
+			//});
+
+			AM.getAllRecords(function (e, accounts) {
+				//res.render('print', { title : 'Account List', accts : accounts });
+				//res.send({ title : 'Account List', accts : accounts }, 200);
+				res.render('index', {
+					title : 'welcome to IB wall',
+					udata : req.session.user,
+					accounts: accounts
+				});
+			});
+		}
+		//AM.delAllRecords(function(){
+		//	res.redirect('/print');	
+		//});
+	});
+
 	
 	// index page
 	app.get('/index', function (req, res) {
@@ -51,26 +92,56 @@ module.exports = function (app) {
 			// if user is not logged-in redirect back to login page //
 			res.redirect('/');
 		} else {
-			
-			var uPosts = null;
-			
-			AM.getAllPosts(function (e, userPosts) {
-				uPosts = userPosts;
-																			
-			});
-			
-			
+            //    PM.getAllPosts(function (e, allPosts) {
+			//	//res.render('print', { title : 'Account List', accts : accounts });
+			//	//res.send({ title : 'Account List', accts : accounts }, 200);
+			//	res.render('index', {
+			//		title : 'welcome to IB wall',
+			//		udata : req.session.user,
+			//		accounts: accounts,
+            //        posts: allPosts
+			//	});
+			//});
+
 			AM.getAllRecords(function (e, accounts) {
 				//res.render('print', { title : 'Account List', accts : accounts });
 				//res.send({ title : 'Account List', accts : accounts }, 200);
-				//console.log(uPosts);
 				res.render('index', {
 					title : 'welcome to IB wall',
 					udata : req.session.user,
-					accounts: accounts,
-					userPosts: uPosts
+					accounts: accounts
 				});
 			});
+		}
+	});
+
+
+    //tushar
+    app.get('/mywall', function (req, res) {
+		if (req.session.user == null) {
+			// if user is not logged-in redirect back to login page //
+			res.redirect('/');
+		} else {
+                PM.getMyPageRecords(function (e, compositeModel) {
+				//res.render('print', { title : 'Account List', accts : accounts });
+				//res.send({ title : 'Account List', accts : accounts }, 200);
+				res.render('mywall', {
+					title : 'welcome to IB wall',
+					udata : req.session.user,
+					accounts: compositeModel.allUsers,
+                    posts: compositeModel.allposts
+				});
+			});
+
+			//AM.getAllRecords(function (e, accounts) {
+			//	//res.render('print', { title : 'Account List', accts : accounts });
+			//	//res.send({ title : 'Account List', accts : accounts }, 200);
+			//	res.render('index', {
+			//		title : 'welcome to IB wall',
+			//		udata : req.session.user,
+			//		accounts: accounts
+			//	});
+			//});
 		}
 	});
 	
@@ -85,7 +156,7 @@ module.exports = function (app) {
 			res.render('home', {
 				title : 'Control Panel',
 				countries : CT,
-				udata : req.session.user
+				udata : req.session.user				
 			});
 		}
 	});
@@ -128,6 +199,7 @@ module.exports = function (app) {
 		AM.addNewAccount({
 			name 	: req.param('name'),
 			email 	: req.param('email'),
+			email 	: req.param('phone'),
 			user 	: req.param('user'),
 			pass	: req.param('pass'),
 			country : req.param('country')
@@ -205,24 +277,6 @@ module.exports = function (app) {
 			res.render('print', { title : 'Account List', accts : accounts });
 		})
 	});
-	
-	app.post('/userPost', function (req, res) {
-		console.log('user posted something');
-		
-		AM.addNewPost({
-			postedTo 	: req.param('postedTo'),
-			postedBy 	: req.param('postedBy'),
-			postData 	: req.param('postData')			
-		}, function (e) {
-			if (e) {
-				res.send(e, 400);
-			} else {
-				res.send('ok', 200);
-			}
-		});
-	});
-
-	//userPost
 	
 	app.post('/delete', function (req, res) {
 		AM.deleteAccount(req.body.id, function (e, obj) {
