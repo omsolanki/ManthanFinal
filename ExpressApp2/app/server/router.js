@@ -53,7 +53,7 @@ module.exports = function (app) {
 		} else {
 			res.render('index', {
 				title : 'welcome to IB wall',
-				countries : CT,
+				//countries : CT,
 				udata : req.session.user
 			});
 		}

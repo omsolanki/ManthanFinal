@@ -6,7 +6,7 @@ function IndexController()
 	var that = this;
 
 // handle user logout //
-	$('#btn-logout').click(function(){ that.attemptLogout(); });
+	$('#link-logout').click(function(){ that.attemptLogout(); });
 
 // confirm account deletion //
 	$('#account-form-btn1').click(function(){$('.modal-confirm').modal('show')});
@@ -39,7 +39,8 @@ function IndexController()
 			type: "POST",
 			data: {logout : true},
 			success: function(data){
-	 			that.showLockedAlert('You are now logged out.<br>Redirecting you back to the homepage.');
+	 			//that.showLockedAlert('You are now logged out.<br>Redirecting you back to the homepage.');
+				window.location.href = '/';
 			},
 			error: function(jqXHR){
 				console.log(jqXHR.responseText+' :: '+jqXHR.statusText);

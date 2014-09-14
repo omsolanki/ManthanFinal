@@ -84,8 +84,8 @@ block content
                       i.glyphicon.glyphicon-user
                     ul.dropdown-menu
                       li
-                        a(href='') Logout
-                          i.glyphicon.glyphicon-off.pull-right
+                        a( id='link-logout' href='') Logout
+                            i.glyphicon.glyphicon-off.pull-right
             // /top nav
             .padding
               .full.col-sm-9
@@ -272,5 +272,7 @@ block content
                     i.glyphicon.glyphicon-map-marker
     // script references
     script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js')
-    script(src='/javascripts/bootstrap.min.js')
-    script(src='/javascripts/scripts.js')
+    script(src='/vendor/javascripts/bootstrap.min.js')
+    script(src='/vendor/javascripts/scripts.js')
+    script(src='/js/views/index.js')
+    script(src='/js/controllers/indexController.js')
