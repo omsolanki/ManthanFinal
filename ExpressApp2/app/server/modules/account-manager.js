@@ -6,7 +6,8 @@ var moment = require('moment');
 
 var dbPort = 27017;
 var dbHost = 'localhost';
-var dbName = 'node-login';
+//var dbName = 'node-login';
+var dbName = 'manthandb-oaapt';
 
 /* establish the database connection */
 
@@ -20,6 +21,7 @@ db.open(function (e, d) {
 });
 var accounts = db.collection('accounts');
 var posts = db.collection('posts');
+var likes = db.collection('userlikes');
 
 /* login validation methods */
 
@@ -139,7 +141,70 @@ exports.getAllPosts = function (callback) {
 	});
 };
 
+exports.getPostsForUser = function (userObj, callback) {
+	igetPostsForUser(userObj, function (e, coModel) {
+		if (!e) {
+			callback(null, coModel);
+		}
+	});
+};
+
+var igetPostsForUser = function (userObj, callback) {
+	
+	var userID = userObj._id.toHexString();
+	
+	posts.find({
+		$or: 
+ [
+            { $and: [ { postedTo: userID },{ postedBy: userID } ] },
+         { postedTo: userID }
+            ]
+	}).sort({ _id: -1 }).toArray(
+		function (e, res) {
+		if (e) callback(e)
+		else {
+			callback(null, res);
+		}
+	});
+};
+
+var getPostDataComposite = function (postID, callback) {
+	posts.findOne({ _id: posts_getObjectId(postID) }, function (e, post) {
+		accounts.findOne({ _id: account_getObjectId(post.postedBy) }, function (e, byUser) {
+			accounts.findOne({ _id: account_getObjectId(post.postedTo) }, function (e, toUser) {
+				var cModel = {};
+				cModel.post = post;
+				cModel.postedBy = byUser;
+				cModel.postedTo = toUser;
+				
+				callback(null, cModel);
+			});
+		});
+	});
+}
+
 exports.addNewPost = function (data, callback) {
+	data.createdDate = moment().format('MMMM Do YYYY, h:mm:ss a');
+	posts.insert(data, function (e, postAdded) {
+		if (!e) {
+			callback(null, postAdded);
+		}
+	});
+}
+
+
+exports.addNewPost11 = function (data, callback) {
+	
+	posts.insert(data, function (e, postAdded) {
+		getPostDataComposite(postAdded[0]._id.toHexString(), function (e, coModel) {
+			if (!e) {
+				callback(null, coModel);
+			}
+		});
+	});
+}
+
+exports.addNewPost1 = function (data, callback) {
 	
 	posts.insert(data, callback);
 					
@@ -178,9 +243,15 @@ var validatePassword = function (plainPass, hashedPass, callback) {
 
 /* auxiliary methods */
 
-var getObjectId = function (id) {
-	return accounts.db.bson_serializer.ObjectID.createFromHexString(id)
+var posts_getObjectId = function (id) {
+	return posts.db.bson_serializer.ObjectID.createFromHexString(id);
 }
+
+
+var account_getObjectId = function (id) {
+	return accounts.db.bson_serializer.ObjectID.createFromHexString(id);
+}
+
 
 var findById = function (id, callback) {
 	accounts.findOne({ _id: getObjectId(id) },
@@ -194,6 +265,29 @@ var findById = function (id, callback) {
 var findByMultipleFields = function (a, callback) {
 	// this takes an array of name/val pairs to search against {fieldName : 'value'} //
 	accounts.find({ $or : a }).toArray(
+		function (e, results) {
+		if (e) callback(e)
+		else callback(null, results)
+	});
+}
+
+
+exports.getUserByUname = function (username, callback) {
+	
+	accounts.findOne({ user: username }, function (e, o) {
+		if (!e) {
+			callback(null, o);
+		}
+	});
+					
+}
+
+exports.addLike = function (data, callback) {
+	likes.insert(data, callback);
+}
+
+exports.countLikes = function (postID, callback) {
+	likes.find({ postId: postID }).toArray(
 		function (e, results) {
 		if (e) callback(e)
 		else callback(null, results)

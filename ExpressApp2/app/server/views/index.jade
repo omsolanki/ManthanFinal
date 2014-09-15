@@ -1,5 +1,5 @@
 
-extends layout
+extends walllayout
 
 block content
     include userdetails
@@ -15,29 +15,16 @@ block content
             ul#lg-menu.nav.hidden-xs
                 each account in accounts
                   li.active
-                    a(href='#featured')
-                      img.pull-left(src='//placehold.it/150x150', width='25px', height='25px')
-                      | #{account.name}
+                    a(href='/user/#{account.user}')
+                      img.img-circle(src='//placehold.it/150x150', width='25px', height='25px')
+                      |  #{account.name}
             ul#sidebar-footer.list-unstyled.hidden-xs
               li
                 a(href='http://www.bootply.com')
-                  h3 Manthan 4
+                  h3 Manthan
                   i.glyphicon.glyphicon-heart-empty
                   | Team O_A_A_P_T
             // tiny only nav
-            ul#xs-menu.nav.visible-xs
-              li
-                a.text-center(href='#featured')
-                  i.glyphicon.glyphicon-list-alt
-              li
-                a.text-center(href='#stories')
-                  i.glyphicon.glyphicon-list
-              li
-                a.text-center(href='#')
-                  i.glyphicon.glyphicon-paperclip
-              li
-                a.text-center(href='#')
-                  i.glyphicon.glyphicon-refresh
           // /sidebar
           // main right col
           #main.column.col-sm-10.col-xs-11
@@ -51,24 +38,15 @@ block content
                   span.icon-bar
                 a.navbar-brand.logo(href='/') m
               nav.collapse.navbar-collapse(role='navigation')
-                form.navbar-form.navbar-left
-                  .input-group.input-group-sm(style='max-width: 360px;')
-                    input#srch-term.form-control(type='text', placeholder='Search', name='srch-term')
-                    .input-group-btn
-                      button.btn.btn-default(type='submit')
-                        i.glyphicon.glyphicon-search
                 ul.nav.navbar-nav
                   li
-                    a(href='#')
+                    a(href='/user/#{user.user}')
                       i.glyphicon.glyphicon-home
                       | Home
+                ul.nav.navbar-nav
                   li
-                    a(href='#postModal', role='button', data-toggle='modal')
-                      i.glyphicon.glyphicon-plus
-                      | Post
-                  li
-                    a(href='#')
-                      span.badge badge
+                    a()
+                      | #{user.name}
                 ul.nav.navbar-nav.navbar-right
                   li.dropdown
                     a.dropdown-toggle(href='#', data-toggle='dropdown')
@@ -86,29 +64,40 @@ block content
                   .col-sm-5
                     .panel.panel-default
                       .panel-thumbnail
-                        img.img-responsive(src='/assets/example/bg_5.jpg')
                       .panel-body
-                        p.lead #{user.name}
-                        
-                        p User Details: #{user.name}
-                        p 45 Followers, 13 Posts
-                        p
-                          img(src='https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s28', width='28px', height='28px')
+                        .col-sm-3
+                          img.img-circle(src='//placehold.it/150x150')
+                        .col-sm-9
+                          p.lead #{wallUser.name}
+                          p 
+                            small #{userPosts.length} Posts
                     .panel.panel-default
                       .panel-heading
                         h4 About Me
                       .panel-body
-                        | Bootstrap is front end frameworkto build custom web applications that are fast, responsive & intuitive. It consist of CSS and HTML for typography, forms, buttons, tables, grids, and navigation along with custom-built jQuery plug-ins and support for responsive layouts. With dozens of reusable components for navigation, pagination, labels, alerts etc..
+                        form.form-horizontal(role='form')
+                         .form-group
+                           label.col-sm-3.control-label Email
+                           .col-sm-9
+                             p.form-control-static #{wallUser.name}
+                         .form-group
+                           label.col-sm-3.control-label Phone
+                           .col-sm-9
+                             p.form-control-static #{wallUser.phone}
+                         .form-group
+                           label.col-sm-3.control-label Location
+                           .col-sm-9
+                             p.form-control-static #{wallUser.country}
+
                     .panel.panel-default
                       .panel-heading
                         h4 Social Good
-                        p 1,200 Followers, 83 Posts
                         p
                           img(src='https://lh6.googleusercontent.com/-5cTTMHjjnzs/AAAAAAAAAAI/AAAAAAAAAFk/vgza68M4p2s/s28-c-k-no/photo.jpg', width='28px', height='28px')
                           img(src='https://lh4.googleusercontent.com/-6aFMDiaLg5M/AAAAAAAAAAI/AAAAAAAABdM/XjnG8z60Ug0/s28-c-k-no/photo.jpg', width='28px', height='28px')
                           img(src='https://lh4.googleusercontent.com/-9Yw2jNffJlE/AAAAAAAAAAI/AAAAAAAAAAA/u3WcFXvK-g8/s28-c-k-no/photo.jpg', width='28px', height='28px')
                   // main col right
-                  .col-sm-7
+                  .col-sm-7#postsContainer1
                     .well
                       form.form-horizontal(role='form')
                         h4 What's New
@@ -117,24 +106,18 @@ block content
                         button#button-post.btn.btn-primary.pull-right(type='button') Post
                         ul.list-inline
                           li
-                            a(href='')
-                              i.glyphicon.glyphicon-upload
-                          li
-                            a(href='')
-                              i.glyphicon.glyphicon-camera
-                          li
-                            a(href='')
-                              i.glyphicon.glyphicon-map-marker
-
-                    if (userPosts != null)
+                  .col-sm-7#postsContainer
                     each userPost in userPosts
+                        
                                 .panel.panel-default
                                   .panel-heading
                                     img.pull-left(src='//placehold.it/150x150', width='35px', height='35px')
-                                    h4 Posted by #{userPost.postedBy}
+                                    h4 Posted by #{userPost.postedByName}
+                                    h6
+                                      small #{userPost.createdDate}
                                   .panel-body
                                     .clearfix
-                                    p #{userPost.postData}
+                                    p.postContent #{userPost.postData}
                                     hr
                                     div
                                       .input-group
@@ -142,16 +125,7 @@ block content
                                           button.btn.btn-default.t-button-postlike(postid=userPost._id)
                                             i.glyphicon.glyphicon-thumbs-up
                                           button.btn.btn-default.disabled
-                                            i.glyphicon 12
-
-
-                    .well
-                      form.form
-                        h4 Sign-up
-                        .input-group.text-center
-                          input.form-control.input-lg(type='text', placeholder='Enter your email address')
-                          span.input-group-btn
-                            button.btn.btn-lg.btn-primary(type='button') OK
+                                            i.glyphicon -
                 // /row
                 .row
                   .col-sm-6
@@ -206,8 +180,8 @@ block content
     
 
     // script references
-    script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js')
-    script(src='/vendor/javascripts/bootstrap.min.js')
+block scripts
     script(src='/vendor/javascripts/scripts.js')
     script(src='/js/views/index.js')
     script(src='/js/controllers/indexController.js')
+    script(src='/js/form-validators/accountValidator.js')

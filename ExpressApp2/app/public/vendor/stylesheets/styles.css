@@ -99,7 +99,7 @@ hr {
    padding-right:0;
 }
 #main .img-circle {
-   margin-top:18px;
+   /*margin-top:18px;*/
    height:70px;
    width:70px;
 }
@@ -284,4 +284,10 @@ small.text-muted {
   #sidebar, #sidebar a, #sidebar-footer a {
     padding-left:3px;
   }
+}
+
+p.postContent
+{
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }

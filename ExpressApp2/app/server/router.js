@@ -1,7 +1,6 @@
 
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
-var PM = require('./modules/post-manager');
 var EM = require('./modules/email-dispatcher');
 
 module.exports = function (app) {
@@ -11,22 +10,19 @@ module.exports = function (app) {
 	app.get('/', function (req, res) {
 		// check if the user's credentials are saved in a cookie //
 		if (req.cookies.user == undefined || req.cookies.pass == undefined) {
-			res.render('login', { title: 'Hello - Please Login To Your Account' });
+			res.render('login', { title: 'IB-Wall - Please Login To Your Account' });
 		} else {
 			// attempt automatic login //
 			AM.autoLogin(req.cookies.user, req.cookies.pass, function (o) {
 				if (o != null) {
 					req.session.user = o;
-					//res.redirect('/home');
 					res.redirect('/user/' + req.cookies.user);
 				} else {
-					res.render('login', { title: 'Hello - Please Login To Your Account' });
+					res.render('login', { title: 'IB-Wall - Please Login To Your Account' });
 				}
 			});
 		}
 	});
-	
-	
 	
 	app.post('/', function (req, res) {
 		AM.manualLogin(req.param('user'), req.param('pass'), function (e, o) {
@@ -34,57 +30,53 @@ module.exports = function (app) {
 				res.send(e, 400);
 			} else {
 				req.session.user = o;
-				if (req.param('remember-me') == 'true') {
-					res.cookie('user', o.user, { maxAge: 900000 });
-					res.cookie('pass', o.pass, { maxAge: 900000 });
-				}
-				console.log('user login and redirecting to home');
+				res.cookie('user', o.user, { maxAge: 900000 });
+				res.cookie('pass', o.pass, { maxAge: 900000 });
+				
 				res.send(o, 200);
-				//res.redirect('/index');
-				//res.redirect('/user/' + o.user);
+				console.log('user login and redirecting to home');
 			}
 		});
 	});
 	
-    //user wall page
-    app.get('/user/:username', function(req, res) {
-        //var acc = [];
-        //var onWallOfUserName = req.param("username");
-        //AM.getMyPageRecords( onWallOfUserName, function(e, accounts){
-        //    acc = accounts;
-        //    res.render('wall', { title : 'Account List', accts : acc.us, my : acc.mi });
-		//});
-
-        if (req.session.user == null) {
-			// if user is not logged-in redirect back to login page //
+	//user wall page
+	
+	app.get('/user/:username', function (req, res) {
+		
+		if (req.session.user == null) {
+			
 			res.redirect('/');
-		} else {
-            //    PM.getAllPosts(function (e, allPosts) {
-			//	//res.render('print', { title : 'Account List', accts : accounts });
-			//	//res.send({ title : 'Account List', accts : accounts }, 200);
-			//	res.render('index', {
-			//		title : 'welcome to IB wall',
-			//		udata : req.session.user,
-			//		accounts: accounts,
-            //        posts: allPosts
-			//	});
-			//});
 
+		} else {
+			var uName = req.param('username');
+			
 			AM.getAllRecords(function (e, accounts) {
-				//res.render('print', { title : 'Account List', accts : accounts });
-				//res.send({ title : 'Account List', accts : accounts }, 200);
-				res.render('index', {
-					title : 'welcome to IB wall',
-					udata : req.session.user,
-					accounts: accounts
+				AM.getUserByUname(uName, function (e, onWQallOfuser) {
+					
+					AM.getPostsForUser(onWQallOfuser, function (e, userPosts) {
+						var uPosts = [];
+						uPosts = userPosts;
+						res.render('index', {
+							title : 'Welcome to IB-Wall',
+							udata : req.session.user,
+							wallUserData: onWQallOfuser,
+							accounts: accounts,
+							userPosts: uPosts
+						});
+					});
 				});
 			});
 		}
-		//AM.delAllRecords(function(){
-		//	res.redirect('/print');	
-		//});
 	});
-
+	
+	
+	app.post('/logoutuser', function (req, res) {
+		if (req.param('logout') == 'true') {
+			res.clearCookie('user');
+			res.clearCookie('pass');
+			req.session.destroy(function (e) { res.send('ok', 200); });
+		}
+	});
 	
 	// index page
 	app.get('/index', function (req, res) {
@@ -92,56 +84,23 @@ module.exports = function (app) {
 			// if user is not logged-in redirect back to login page //
 			res.redirect('/');
 		} else {
-            //    PM.getAllPosts(function (e, allPosts) {
-			//	//res.render('print', { title : 'Account List', accts : accounts });
-			//	//res.send({ title : 'Account List', accts : accounts }, 200);
-			//	res.render('index', {
-			//		title : 'welcome to IB wall',
-			//		udata : req.session.user,
-			//		accounts: accounts,
-            //        posts: allPosts
-			//	});
-			//});
-
+			
+			var uPosts = null;
+			
+			AM.getAllPosts(function (e, userPosts) {
+				uPosts = userPosts;
+			});
+			
+			
 			AM.getAllRecords(function (e, accounts) {
-				//res.render('print', { title : 'Account List', accts : accounts });
-				//res.send({ title : 'Account List', accts : accounts }, 200);
+				
 				res.render('index', {
-					title : 'welcome to IB wall',
+					title : 'Welcome to IB wall',
 					udata : req.session.user,
-					accounts: accounts
+					accounts: accounts,
+					userPosts: uPosts
 				});
 			});
-		}
-	});
-
-
-    //tushar
-    app.get('/mywall', function (req, res) {
-		if (req.session.user == null) {
-			// if user is not logged-in redirect back to login page //
-			res.redirect('/');
-		} else {
-                PM.getMyPageRecords(function (e, compositeModel) {
-				//res.render('print', { title : 'Account List', accts : accounts });
-				//res.send({ title : 'Account List', accts : accounts }, 200);
-				res.render('mywall', {
-					title : 'welcome to IB wall',
-					udata : req.session.user,
-					accounts: compositeModel.allUsers,
-                    posts: compositeModel.allposts
-				});
-			});
-
-			//AM.getAllRecords(function (e, accounts) {
-			//	//res.render('print', { title : 'Account List', accts : accounts });
-			//	//res.send({ title : 'Account List', accts : accounts }, 200);
-			//	res.render('index', {
-			//		title : 'welcome to IB wall',
-			//		udata : req.session.user,
-			//		accounts: accounts
-			//	});
-			//});
 		}
 	});
 	
@@ -156,7 +115,7 @@ module.exports = function (app) {
 			res.render('home', {
 				title : 'Control Panel',
 				countries : CT,
-				udata : req.session.user				
+				udata : req.session.user
 			});
 		}
 	});
@@ -199,7 +158,7 @@ module.exports = function (app) {
 		AM.addNewAccount({
 			name 	: req.param('name'),
 			email 	: req.param('email'),
-			email 	: req.param('phone'),
+			phone 	: req.param('phone'),
 			user 	: req.param('user'),
 			pass	: req.param('pass'),
 			country : req.param('country')
@@ -222,8 +181,7 @@ module.exports = function (app) {
 				EM.dispatchResetPasswordLink(o, function (e, m) {
 					// this callback takes a moment to return //
 					// should add an ajax loader to give user feedback //
-					if (!e) {
-					//	res.send('ok', 200);
+					if (!e) {					
 					} else {
 						res.send('email-server-error', 400);
 						for (k in e) console.log('error : ', k, e[k]);
@@ -267,7 +225,7 @@ module.exports = function (app) {
 	// view & delete accounts //
 	app.get('/Acounts', function (req, res) {
 		AM.getAllRecords(function (e, accounts) {
-			//res.render('print', { title : 'Account List', accts : accounts });
+			
 			res.send({ title : 'Account List', accts : accounts }, 200);
 		})
 	});
@@ -277,6 +235,26 @@ module.exports = function (app) {
 			res.render('print', { title : 'Account List', accts : accounts });
 		})
 	});
+	
+	app.post('/userPost', function (req, res) {
+		console.log('user posted something');
+		
+		AM.addNewPost({
+			postedTo 	: req.param('postedTo'),
+			postedToName 	: req.param('postedToName'),
+			postedBy 	: req.param('postedBy'),
+			postedByName 	: req.param('postedByName'),
+			postData 	: req.param('postData')
+		}, function (e, postAdded) {
+			if (e) {
+				res.send(e, 400);
+			} else {
+				res.send(postAdded, 200);
+			}
+		});
+	});
+	
+	//userPost
 	
 	app.post('/delete', function (req, res) {
 		AM.deleteAccount(req.body.id, function (e, obj) {
@@ -294,6 +272,55 @@ module.exports = function (app) {
 		AM.delAllRecords(function () {
 			res.redirect('/print');
 		});
+	});
+	
+	
+	
+	// post like
+	app.post('/userLike', function (req, res) {
+		console.log('user like something');
+		AM.addLike({
+			byuserId: req.param('byuserId'),
+			postId: req.param('postId'),
+		}, function (e) {
+			if (e) {
+				res.send(e, 400);
+			} else {
+				res.send('ok', 200);
+			}
+		});
+	});
+	
+	//count likes
+	app.post('/countLikes', function (req, res) {
+		AM.countLikes({
+			postId: req.param('postId'),
+		}, function (e, result) {
+			if (e) {
+				res.send(e, 400);
+			} else {
+				res.send(result.length, 200);
+			}
+		});
+	});
+	
+	
+	
+	app.get('/post/:postID', function (req, res) {
+		
+		if (req.session.user == null) {
+			
+			res.redirect('/');
+
+		} else {
+			var postID = req.param('postID');
+			
+			AM.getPostDataComposite(postID, function (e, postDataComposite) {
+				if (!e) {
+					var uPosts = postDataComposite;
+				}
+			});
+		}
 	});
 	
 	app.get('*', function (req, res) { res.render('404', { title: 'Page Not Found' }); });

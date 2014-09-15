@@ -38,7 +38,6 @@
     <Compile Include="app\public\js\form-validators\emailValidator.js" />
     <Compile Include="app\public\js\form-validators\loginValidator.js" />
     <Compile Include="app\public\js\form-validators\resetValidator.js" />
-    <Compile Include="app\public\js\indexController.js" />
     <Compile Include="app\public\js\views\index.js" />
     <Compile Include="app\public\js\views\home.js" />
     <Compile Include="app\public\js\views\login.js" />
@@ -54,7 +53,6 @@
     <Compile Include="app\server\modules\country-list.js" />
     <Compile Include="app\server\modules\email-dispatcher.js" />
     <Compile Include="app\server\modules\email-settings.js" />
-    <Compile Include="app\server\modules\post-manager.js" />
     <Compile Include="app\server\router.js" />
     <Content Include="app\public\img\glyphicons-halflings-white.png" />
     <Content Include="app\public\img\glyphicons-halflings.png" />

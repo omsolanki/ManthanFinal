@@ -9,7 +9,8 @@ var path = require('path');
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+//app.set('port', process.env.PORT || 3000);
+app.set('port', 3000);
 app.set('views', path.join(__dirname, '/app/server/views'));
 app.set('view engine', 'jade');
 app.locals.pretty = true;
@@ -21,7 +22,7 @@ app.use(express.session({ secret: 'super-duper-secret-secret' }));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
-//app.use(app.router);
+
 app.use(require('stylus').middleware(path.join(__dirname, '/app/public')));
 app.use(express.static(path.join(__dirname, '/app/public')));
 

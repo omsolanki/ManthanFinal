@@ -1,8 +1,8 @@
 
 module.exports = {
 	
-	host		: 'smtp.gmail.com',
-	user 		: 'omprakash.solanki@infobeans.com',
-	password 	: '*******',
-	sender		: 'Om Prakash Solanki<omprakash.solanki@infobeans.com>'	
+    host: 'smtp.gmail.com',
+    user: 'manthan.oaapt@gmail.com',
+    password: 'oaapt@123',
+    sender: 'Manthan-OAAPT<manthan.oaapt@gmail.com>'
 }
